@@ -21,7 +21,7 @@ ch.setFormatter(ch_formatter)
 ch.addFilter(ParsingFilter())
 logger.addHandler(ch)
 
-from .oldgui import ssp_gui
+from . import ssp_gui
 
 ssp_gui.gui()
 

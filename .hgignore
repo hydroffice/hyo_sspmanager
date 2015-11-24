@@ -46,3 +46,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+_build/
+
+# notebooks checkpoint
+examples/.ipynb_checkpoints/
