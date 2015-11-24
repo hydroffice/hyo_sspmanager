@@ -1,0 +1,18 @@
+syntax: glob
+
+# Byte-compiled / optimized 
+__pycache__/
+tmp/
+*.pyc
+*.pyo
+*.0*
+*.idea
+
+.coverage
+.coverage.*
+*desktop.ini
+.hgignore.orig
+
+# temp files
+*.sh~
+*.*~
