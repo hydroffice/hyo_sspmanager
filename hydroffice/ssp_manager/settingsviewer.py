@@ -21,7 +21,7 @@ class SettingsViewer(settingsviewer_ui.SettingsViewerBase):
 
         self.Bind(wx.EVT_CLOSE, self.on_hide)
 
-        self.control = wx.TextCtrl(self, size=(400, 600), style=wx.TE_MULTILINE)
+        self.control = wx.TextCtrl(self, size=(600, 600), style=wx.TE_MULTILINE)
         self.control.SetEditable(False)
         small_font = wx.Font(8, wx.MODERN, wx.NORMAL, wx.NORMAL, False, u'Consolas')
         self.control.SetFont(small_font)

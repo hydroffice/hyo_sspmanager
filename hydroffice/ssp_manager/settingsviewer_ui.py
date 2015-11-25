@@ -33,7 +33,7 @@ class SettingsViewerBase(wx.Frame):
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
         self.SetTitle("Settings Viewer")
-        self.SetSize((500, 500))
+        self.SetSize((600, 600))
         self.SettingsViewerFrame_statusbar.SetStatusWidths([-1, 400])
         # statusbar fields
         SettingsViewerFrame_statusbar_fields = ["", ""]
@@ -44,4 +44,4 @@ class SettingsViewerBase(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(sizer_1)
         self.Layout()
-        self.SetSize((500, 500))
+        self.SetSize((600, 600))

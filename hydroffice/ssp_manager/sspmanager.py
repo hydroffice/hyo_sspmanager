@@ -380,7 +380,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         self.prj.ssp_data = copy.deepcopy(woa_data)
 
         self.prj.filename = "%s_WOA09" % (self.prj.ssp_woa.date_time.strftime("%Y%m%d_%H%M%S"))
-        self.prj.s.filename_prefix = os.path.splitext(self.prj.filename)[0]
+        self.prj.u.filename_prefix = os.path.splitext(self.prj.filename)[0]
         self.prj.has_ssp_loaded = True
         self.prj.surface_speed_applied = False
         self.prj.ssp_applied_depth = 0
@@ -445,7 +445,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
             log.info("failure in performing WOA09 lookup")
 
         self.prj.filename = "%s_RTOFS" % (self.prj.ssp_data.date_time.strftime("%Y%m%d_%H%M%S"))
-        self.prj.s.filename_prefix = os.path.splitext(self.prj.filename)[0]
+        self.prj.u.filename_prefix = os.path.splitext(self.prj.filename)[0]
         self.prj.has_ssp_loaded = True
         self.prj.surface_speed_applied = False
         self.prj.ssp_applied_depth = 0
@@ -492,7 +492,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         self.prj.ssp_data.set_position(latitude, longitude)
 
         self.prj.filename = "%s_SIS" % (self.prj.ssp_data.date_time.strftime("%Y%m%d_%H%M%S"))
-        self.prj.s.filename_prefix = os.path.splitext(self.prj.filename)[0]
+        self.prj.u.filename_prefix = os.path.splitext(self.prj.filename)[0]
 
         self.prj.ssp_woa, self.prj.ssp_woa_min, self.prj.ssp_woa_max = \
             self.prj.woa09_atlas.query(latitude, longitude, self.prj.ssp_data.date_time)
@@ -513,28 +513,28 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
     # Export
 
     def on_file_export_asvp(self, evt):
-        self.prj.s.switch_export_format("ASVP")
+        self.prj.u.switch_export_format("ASVP")
 
     def on_file_export_csv(self, evt):
-        self.prj.s.switch_export_format("CSV")
+        self.prj.u.switch_export_format("CSV")
 
     def on_file_export_pro(self, evt):
-        self.prj.s.switch_export_format("PRO")
+        self.prj.u.switch_export_format("PRO")
 
     def on_file_export_elac(self, evt):
-        self.prj.s.switch_export_format("ELAC")
+        self.prj.u.switch_export_format("ELAC")
 
     def on_file_export_hips(self, evt):
-        self.prj.s.switch_export_format("HIPS")
+        self.prj.u.switch_export_format("HIPS")
 
     def on_file_export_ixblue(self, evt):
-        self.prj.s.switch_export_format("IXBLUE")
+        self.prj.u.switch_export_format("IXBLUE")
 
     def on_file_export_unb(self, evt):
-        self.prj.s.switch_export_format("UNB")
+        self.prj.u.switch_export_format("UNB")
 
     def on_file_export_vel(self, evt):
-        self.prj.s.switch_export_format("VEL")
+        self.prj.u.switch_export_format("VEL")
 
     def on_file_export_cast(self, evt):
         """Manage the user export"""
@@ -555,23 +555,23 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
                 dlg.Destroy()
                 return
             dlg.Destroy()
-            self.prj.s.user_export_directory = dlg.GetDirectory()
+            self.prj.u.user_export_directory = dlg.GetDirectory()
             filename = dlg.GetFilename()
-            self.prj.s.user_filename_prefix = os.path.splitext(filename)[0]
+            self.prj.u.user_filename_prefix = os.path.splitext(filename)[0]
 
         else:
             # Accommodate files that are imported from an existing file (and have a fully qualified path name
             # in the self.prj.filename variable AND accommodate files that are generated in memory (e.g. WOA query)
             # and have a pathless filename in self.prj.filename.
-            self.prj.s.user_export_directory = self.prj.get_output_folder()
+            self.prj.u.user_export_directory = self.prj.get_output_folder()
             filename = os.path.basename(self.prj.filename)
-            self.prj.s.user_filename_prefix = os.path.splitext(filename)[0]
+            self.prj.u.user_filename_prefix = os.path.splitext(filename)[0]
 
         # actually do the export
         self.prj.formats_export("USER")
 
         # open export folder
-        Helper.explore_folder(self.prj.s.user_export_directory)
+        Helper.explore_folder(self.prj.u.user_export_directory)
 
     # clear
 
@@ -799,7 +799,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
     # ####### Plot ######
 
     def on_plot_zoom(self, evt):
-        self.prj.s.inspection_mode = Dicts.inspections_mode['Zoom']  # zoom mode
+        self.prj.u.inspection_mode = Dicts.inspections_mode['Zoom']  # zoom mode
         self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Zoom"]
@@ -807,7 +807,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         log.info("inspection mode: zoom")
 
     def on_plot_flag(self, evt):
-        self.prj.s.inspection_mode = Dicts.inspections_mode['Flag']  # flag data
+        self.prj.u.inspection_mode = Dicts.inspections_mode['Flag']  # flag data
         self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Flag"]
@@ -815,7 +815,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         log.info("flag interaction: active")
 
     def on_plot_unflag(self, evt):
-        self.prj.s.inspection_mode = Dicts.inspections_mode['Unflag']  # unflag data
+        self.prj.u.inspection_mode = Dicts.inspections_mode['Unflag']  # unflag data
         self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Flag"]
@@ -823,7 +823,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         log.info("unflag interaction: active")
 
     def on_plot_insert(self, evt):
-        self.prj.s.inspection_mode = Dicts.inspections_mode['Insert']  # insert data
+        self.prj.u.inspection_mode = Dicts.inspections_mode['Insert']  # insert data
         self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Insert"]
@@ -882,11 +882,11 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         if self.p.sel_mode == self.p.sel_modes["Flag"]:
             # Deal with case of user selecting points
             if evt.axes == self.p.speed_axes:
-                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'speed', self.prj.s.inspection_mode)
+                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'speed', self.prj.u.inspection_mode)
             elif evt.axes == self.p.temp_axes:
-                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'temperature', self.prj.s.inspection_mode)
+                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'temperature', self.prj.u.inspection_mode)
             elif evt.axes == self.p.sal_axes:
-                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'salinity', self.prj.s.inspection_mode)
+                self.prj.ssp_data.toggle_flag([y1, y2], [x1, x2], 'salinity', self.prj.u.inspection_mode)
 
         elif self.p.sel_mode == self.p.sel_modes["Zoom"]:
             # Deal with case of zooming in
@@ -1732,7 +1732,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         # actually loading the data
         self.prj.ssp_data = ssp_db.get_ssp_by_pk(pk_list[dialog.GetSelection()][0])
         self.prj.filename = "%s_LocalDB" % self.prj.ssp_data.original_path
-        self.prj.s.filename_prefix = os.path.splitext(self.prj.filename)[0]
+        self.prj.u.filename_prefix = os.path.splitext(self.prj.filename)[0]
 
         self.prj.ssp_woa, self.prj.ssp_woa_min, self.prj.ssp_woa_max = \
             self.prj.woa09_atlas.query(self.prj.ssp_data.latitude, self.prj.ssp_data.longitude,
@@ -2075,7 +2075,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
 
         self.prj.ssp_data = copy.deepcopy(self.prj.ssp_reference)
         self.prj.filename = self.prj.ssp_reference_filename
-        self.prj.s.filename_prefix = os.path.splitext(self.prj.filename)[0]
+        self.prj.u.filename_prefix = os.path.splitext(self.prj.filename)[0]
 
         self.prj.ssp_woa, self.prj.ssp_woa_min, self.prj.ssp_woa_max = self.prj.woa09_atlas.query(
             self.prj.ssp_data.latitude,
