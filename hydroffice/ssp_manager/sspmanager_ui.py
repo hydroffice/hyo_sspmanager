@@ -90,6 +90,7 @@ MENU_TOOLS_CLEAR_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_EDIT_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_REFERENCE = wx.NewId()
 MENU_TOOLS_SETTINGS = wx.NewId()
+MENU_TOOLS_USER_INPUTS = wx.NewId()
 MENU_TOOLS_REF_MON = wx.NewId()
 MENU_TOOLS_GEO_MONITOR = wx.NewId()
 
@@ -122,7 +123,8 @@ MENUS_ALL = (MENU_FILE_IMP, MENU_FILE_IMP_CASTAWAY, MENU_FILE_IMP_DIGIBAR, MENU_
              MENU_SERVER_START, MENU_SERVER_SEND, MENU_SERVER_STOP, MENU_SERVER_LOG_METADATA,
              MENU_TOOLS_GEO_MONITOR, MENU_TOOLS_REF_MON,
              MENU_TOOLS_SET_REFERENCE_CAST, MENU_TOOLS_EDIT_REFERENCE_CAST, MENU_TOOLS_CLEAR_REFERENCE_CAST,
-             MENU_TOOLS_SETTINGS)
+             MENU_TOOLS_SETTINGS,
+             MENU_TOOLS_USER_INPUTS)
 
 MENUS_DISABLED_ON_CLOSED = (
     MENU_FILE_EXPORT_CAST, MENU_FILE_CLEAR,
@@ -429,11 +431,14 @@ class SVPEditorBase(wx.Frame):
                                                    "Clear the reference cast",
                                                    "Clear the current reference cast", wx.ITEM_NORMAL)
         ReferenceMenu.AppendItem(self.ToolsClearReferenceCast)
-        self.ToolsInfoSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_SETTINGS, "Info settings",
-                                             "Provide settings information", wx.ITEM_NORMAL)
         self.ToolsMenu.AppendMenu(MENU_TOOLS_REFERENCE, "Reference cast", ReferenceMenu,
                                   "Actions about a reference cast")
         self.ToolsMenu.AppendSeparator()
+        self.ToolsUserInputs = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_USER_INPUTS, "User inputs",
+                                           "Provide information about user inputs", wx.ITEM_NORMAL)
+        self.ToolsMenu.AppendItem(self.ToolsUserInputs)
+        self.ToolsInfoSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_SETTINGS, "Info settings",
+                                             "Provide settings information", wx.ITEM_NORMAL)
         self.ToolsMenu.AppendItem(self.ToolsInfoSettings)
         self.SVPEditorFrame_menubar.Append(self.ToolsMenu, "Tools")
 
@@ -522,6 +527,7 @@ class SVPEditorBase(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_tools_set_reference_cast, self.ToolsSetReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_edit_reference_cast, self.ToolsEditReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_clear_reference_cast, self.ToolsClearReferenceCast)
+        self.Bind(wx.EVT_MENU, self.on_tools_user_inputs, self.ToolsUserInputs)
         self.Bind(wx.EVT_MENU, self.on_tools_info_settings, self.ToolsInfoSettings)
 
         self.Bind(wx.EVT_MENU, self.on_help_manual, self.HelpManual)
@@ -775,6 +781,10 @@ class SVPEditorBase(wx.Frame):
 
     def on_db_save_daily_ssp(self, event):
         log.info("Event handler 'on_db_save_daily_ssp' not implemented!")
+        event.Skip()
+
+    def on_tools_user_inputs(self, event):
+        log.info("Event handler 'on_tools_user_inputs' not implemented!")
         event.Skip()
 
     def on_tools_info_settings(self, event):

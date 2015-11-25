@@ -30,10 +30,11 @@ from hydroffice.base.timerthread import TimerThread
 from hydroffice.base.gdal_aux import GdalAux
 
 from .plots import WxPlots, PlotsSettings
-from . import svpeditor_ui
+from . import sspmanager_ui
 from . import refmonitor
 from . import geomonitor
 from . import settingsviewer
+from . import userinputsviewer
 from . import __version__
 from . import __license__
 from hydroffice.ssp import project
@@ -45,7 +46,7 @@ from hydroffice.ssp.helper import Helper, SspError
 from hydroffice.ssp.atlases.woa09checker import Woa09Checker
 
 
-class SVPEditor(svpeditor_ui.SVPEditorBase):
+class SVPEditor(sspmanager_ui.SVPEditorBase):
     here = os.path.abspath(os.path.dirname(__file__))
 
     gui_state = {
@@ -55,7 +56,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
     }
 
     def __init__(self):
-        svpeditor_ui.SVPEditorBase.__init__(self, None, -1, "")
+        sspmanager_ui.SVPEditorBase.__init__(self, None, -1, "")
 
         self.version = __version__
         self.license = __license__
@@ -74,7 +75,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
                                     % Woa09Checker.get_atlases_folder(),
                                     'SSP Manager - WOA09 atlas', wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION)
             if dial.ShowModal() == wx.ID_YES:
-                chk = Woa09Checker(verbose=True)
+                chk = Woa09Checker()
                 with_woa09 = chk.present
                 if not with_woa09:
                     wx.MessageDialog(None, 'Unable to retrieve the WOA09 atlas. You might:\n'
@@ -125,6 +126,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
         self.ref_monitor = None
         self.geo_monitor = None
         self.set_viewer = None
+        self.inputs_viewer = None
         self.init_ui()
 
         # update state
@@ -138,7 +140,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
         self.plot_timer.start()
 
     def init_ui(self):
-        favicon = wx.Icon(os.path.join(self.here, 'favicon.ico'), wx.BITMAP_TYPE_ICO, 32, 32)
+        favicon = wx.Icon(os.path.join(self.here, 'media', 'favicon.png'), wx.BITMAP_TYPE_PNG, 32, 32)
         wx.Frame.SetIcon(self, favicon)
 
         if os.name == 'nt':
@@ -167,11 +169,10 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
         self.ref_monitor = refmonitor.RefMonitor(self.prj.km_listener)
         self.geo_monitor = geomonitor.GeoMonitor(self.prj.km_listener)
         self.set_viewer = settingsviewer.SettingsViewer(self.prj.s)
+        self.inputs_viewer = userinputsviewer.UserInputsViewer(parent=self, ssp_user_inputs=self.prj.u)
 
     def on_context(self, event):
-        """
-        Create and show a Context Menu
-        """
+        """ Create and show a Context Menu """
         # we don't want the context menu without data
         if not self.prj.has_ssp_loaded:
             return
@@ -606,6 +607,9 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
         if self.geo_monitor:
             log.info("killing geo monitor")
             self.geo_monitor.OnExit()
+        if self.inputs_viewer:
+            log.info("killing user inputs viewer")
+            self.inputs_viewer.OnExit()
         if self.set_viewer:
             log.info("killing settings viewer")
             self.set_viewer.OnExit()
@@ -745,21 +749,21 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
                                  max(self.prj.ssp_reference.data[Dicts.idx['salinity'], :]))
 
         if self.p.sel_mode == self.p.sel_modes["Insert"]:
-            if self.prj.s.user_depth:
-                self.p.min_depth = max(self.p.min_depth, self.prj.s.user_depth)
-                self.p.max_depth = min(self.p.max_depth, self.prj.s.user_depth)
+            if self.prj.u.user_depth:
+                self.p.min_depth = max(self.p.min_depth, self.prj.u.user_depth)
+                self.p.max_depth = min(self.p.max_depth, self.prj.u.user_depth)
 
-            if self.prj.s.user_speed:
-                self.p.min_speed = min(self.p.min_speed, self.prj.s.user_speed)
-                self.p.max_speed = max(self.p.max_speed, self.prj.s.user_speed)
+            if self.prj.u.user_speed:
+                self.p.min_speed = min(self.p.min_speed, self.prj.u.user_speed)
+                self.p.max_speed = max(self.p.max_speed, self.prj.u.user_speed)
 
-            if self.prj.s.user_temperature:
-                self.p.min_temp = min(self.p.min_temp, self.prj.s.user_temperature)
-                self.p.max_temp = max(self.p.max_temp, self.prj.s.user_temperature)
+            if self.prj.u.user_temperature:
+                self.p.min_temp = min(self.p.min_temp, self.prj.u.user_temperature)
+                self.p.max_temp = max(self.p.max_temp, self.prj.u.user_temperature)
 
-            if self.prj.s.user_salinity:
-                self.p.min_sal = min(self.p.min_sal, self.prj.s.user_salinity)
-                self.p.max_sal = max(self.p.max_sal, self.prj.s.user_salinity)
+            if self.prj.u.user_salinity:
+                self.p.min_sal = min(self.p.min_sal, self.prj.u.user_salinity)
+                self.p.max_sal = max(self.p.max_sal, self.prj.u.user_salinity)
 
         view_range = self.p.max_depth - self.p.min_depth
         if view_range == 0.0:
@@ -796,7 +800,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
     def on_plot_zoom(self, evt):
         self.prj.s.inspection_mode = Dicts.inspections_mode['Zoom']  # zoom mode
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Zoom"]
         self._update_plot()
@@ -804,7 +808,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
     def on_plot_flag(self, evt):
         self.prj.s.inspection_mode = Dicts.inspections_mode['Flag']  # flag data
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Flag"]
         self._update_plot()
@@ -812,7 +816,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
     def on_plot_unflag(self, evt):
         self.prj.s.inspection_mode = Dicts.inspections_mode['Unflag']  # unflag data
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Flag"]
         self._update_plot()
@@ -820,7 +824,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
     def on_plot_insert(self, evt):
         self.prj.s.inspection_mode = Dicts.inspections_mode['Insert']  # insert data
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
 
         self.p.sel_mode = self.p.sel_modes["Insert"]
         self._update_plot()
@@ -834,33 +838,33 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
         x, y = evt.xdata, evt.ydata
         if evt.axes == self.p.speed_axes:
-            if self.prj.s.user_salinity and self.prj.s.user_temperature and self.prj.s.user_depth:
-                self.prj.s.user_speed = oceanography.soundspeed(self.prj.s.user_depth, self.prj.s.user_temperature,
-                                                                self.prj.s.user_salinity, self.prj.ssp_data.latitude)
+            if self.prj.u.user_salinity and self.prj.u.user_temperature and self.prj.u.user_depth:
+                self.prj.u.user_speed = oceanography.soundspeed(self.prj.u.user_depth, self.prj.u.user_temperature,
+                                                                self.prj.u.user_salinity, self.prj.ssp_data.latitude)
                 msg = "User manually inserted temperature %f and salinity %f at depth %f, calculated sound speed %f" \
-                      % (self.prj.s.user_temperature, self.prj.s.user_salinity, self.prj.s.user_depth,
-                         self.prj.s.user_speed)
+                      % (self.prj.u.user_temperature, self.prj.u.user_salinity, self.prj.u.user_depth,
+                         self.prj.u.user_speed)
             else:
-                self.prj.s.user_speed = x
-                self.prj.s.user_depth = y
-                self.prj.s.user_temperature = None
-                self.prj.s.user_salinity = None
+                self.prj.u.user_speed = x
+                self.prj.u.user_depth = y
+                self.prj.u.user_temperature = None
+                self.prj.u.user_salinity = None
                 msg = "User manually inserted sound speed %f at depth %f" \
-                      % (self.prj.s.user_speed, self.prj.s.user_depth)
+                      % (self.prj.u.user_speed, self.prj.u.user_depth)
 
-            self.prj.ssp_data.insert_sample(depth=self.prj.s.user_depth, speed=self.prj.s.user_speed,
-                                            temperature=self.prj.s.user_temperature, salinity=self.prj.s.user_salinity,
+            self.prj.ssp_data.insert_sample(depth=self.prj.u.user_depth, speed=self.prj.u.user_speed,
+                                            temperature=self.prj.u.user_temperature, salinity=self.prj.u.user_salinity,
                                             source=Dicts.source_types['User'])
             log.info(msg)
-            self.prj.s.clear_user_samples()
+            self.prj.u.clear_user_samples()
 
         elif evt.axes == self.p.temp_axes:
-            self.prj.s.user_temperature = x
-            self.prj.s.user_depth = y
+            self.prj.u.user_temperature = x
+            self.prj.u.user_depth = y
 
         elif evt.axes == self.p.sal_axes:
-            self.prj.s.user_salinity = x
-            self.prj.s.user_depth = y
+            self.prj.u.user_salinity = x
+            self.prj.u.user_depth = y
 
         self._update_plot()
 
@@ -1127,38 +1131,38 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
             temperatures = np.zeros(2)
             depths = np.zeros(2)
 
-            depths[0] = self.prj.s.user_depth
+            depths[0] = self.prj.u.user_depth
 
             pts = ((self.prj.ssp_data.data[Dicts.idx['flag'], :] == 0)
-                   & (self.prj.ssp_data.data[Dicts.idx['depth'], :] < self.prj.s.user_depth))
+                   & (self.prj.ssp_data.data[Dicts.idx['depth'], :] < self.prj.u.user_depth))
             if np.count_nonzero(pts) > 0:
                 depths[1] = self.prj.ssp_data.data[Dicts.idx['depth'], pts][-1]
                 temperatures[1] = self.prj.ssp_data.data[Dicts.idx['temperature'], pts][-1]
                 salinities[1] = self.prj.ssp_data.data[Dicts.idx['salinity'], pts][-1]
-                if self.prj.s.user_salinity:
-                    salinities[0] = self.prj.s.user_salinity
+                if self.prj.u.user_salinity:
+                    salinities[0] = self.prj.u.user_salinity
                     self.p.sal_axes.plot(salinities, depths, "c--")
-                if self.prj.s.user_temperature:
-                    temperatures[0] = self.prj.s.user_temperature
+                if self.prj.u.user_temperature:
+                    temperatures[0] = self.prj.u.user_temperature
                     self.p.temp_axes.plot(temperatures, depths, "c--")
 
             pts = ((self.prj.ssp_data.data[Dicts.idx['flag'], :] == 0)
-                   & (self.prj.ssp_data.data[Dicts.idx['depth'], :] > self.prj.s.user_depth))
+                   & (self.prj.ssp_data.data[Dicts.idx['depth'], :] > self.prj.u.user_depth))
             if np.count_nonzero(pts) > 0:
                 depths[1] = self.prj.ssp_data.data[Dicts.idx['depth'], pts][0]
                 temperatures[1] = self.prj.ssp_data.data[Dicts.idx['temperature'], pts][0]
                 salinities[1] = self.prj.ssp_data.data[Dicts.idx['salinity'], pts][0]
-                if self.prj.s.user_salinity:
-                    salinities[0] = self.prj.s.user_salinity
+                if self.prj.u.user_salinity:
+                    salinities[0] = self.prj.u.user_salinity
                     self.p.sal_axes.plot(salinities, depths, "c--")
-                if self.prj.s.user_temperature:
-                    temperatures[0] = self.prj.s.user_temperature
+                if self.prj.u.user_temperature:
+                    temperatures[0] = self.prj.u.user_temperature
                     self.p.temp_axes.plot(temperatures, depths, "c--")
 
-            if self.prj.s.user_salinity:
-                self.p.sal_axes.plot(self.prj.s.user_salinity, self.prj.s.user_depth, "c.")
-            if self.prj.s.user_temperature:
-                self.p.temp_axes.plot(self.prj.s.user_temperature, self.prj.s.user_depth, "c.")
+            if self.prj.u.user_salinity:
+                self.p.sal_axes.plot(self.prj.u.user_salinity, self.prj.u.user_depth, "c.")
+            if self.prj.u.user_temperature:
+                self.p.temp_axes.plot(self.prj.u.user_temperature, self.prj.u.user_depth, "c.")
 
         self.p.plots.draw()
 
@@ -1702,7 +1706,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
             return
 
         pk_list = ssp_db.list_all_ssp_pks()
-        #print(pk_list)
+        # print(pk_list)
         if len(pk_list) == 0:
             msg = 'The DB is empty. Load and store an SSP first!'
             dlg = wx.MessageDialog(None, msg, "Local DB", wx.OK | wx.ICON_WARNING)
@@ -1717,7 +1721,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
         dlg_list = [("%04d: %s @ %s [%s]" % (tp[0], tp[1], tp[2], Dicts.first_match(Dicts.sensor_types, int(tp[4]))))
                     for tp in pk_list]
-        #print(dlg_list)
+        # print(dlg_list)
         dialog = wx.SingleChoiceDialog(None, "Pick a stored SSP", "Local DB", dlg_list)
         selection = dialog.ShowModal()
         dialog.Destroy()
@@ -1945,6 +1949,9 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
         self.ref_monitor.OnShow()
 
+    def on_tools_user_inputs(self, evt):
+        self.inputs_viewer.OnShow()
+
     def on_tools_info_settings(self, evt):
         self.set_viewer.OnShow()
 
@@ -2108,7 +2115,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
         dlg.SetName("SSP Manager")
         dlg.SetVersion(self.version)
         dlg.SetLicense(self.license)
-        dlg.SetIcon(wx.Icon(os.path.join(self.here, "ccom.png"), wx.BITMAP_TYPE_PNG))
+        dlg.SetIcon(wx.Icon(os.path.join(self.here, "media", "ccom.png"), wx.BITMAP_TYPE_PNG))
         dlg.SetDescription("SSP Manager processes XBT/SVP/CTD data for being used by \n"
                            "acoustic systems.\n\n"
                            "This work is/has been funded by:\n"
@@ -2284,19 +2291,19 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
 
     def _update_state(self, state):
 
-        for item in svpeditor_ui.MENUS_ALL:  # Enable ALL the menu items
+        for item in sspmanager_ui.MENUS_ALL:  # Enable ALL the menu items
             self.GetMenuBar().FindItemById(item).Enable(True)
 
         # selectively disable some based on the state
         if state == self.gui_state["CLOSED"]:
-            for item in svpeditor_ui.MENUS_DISABLED_ON_CLOSED:
+            for item in sspmanager_ui.MENUS_DISABLED_ON_CLOSED:
                 self.GetMenuBar().FindItemById(item).Enable(False)
             if self.ref_monitor:
                 self.ref_monitor.set_ssp(None)
                 self.ref_monitor.hide()
 
         elif state == self.gui_state["OPEN"]:
-            for item in svpeditor_ui.MENUS_DISABLED_ON_OPEN:
+            for item in sspmanager_ui.MENUS_DISABLED_ON_OPEN:
                 self.GetMenuBar().FindItemById(item).Enable(False)
             if self.prj.ssp_data.sensor_type != Dicts.sensor_types["XBT"]:
                 self.ProcessLoadSal.Enable(False)
@@ -2307,7 +2314,7 @@ class SVPEditor(svpeditor_ui.SVPEditorBase):
                 self.ref_monitor.set_ssp(self.prj.ssp_data)
 
         elif state == self.gui_state["SERVER"]:
-            for item in svpeditor_ui.MENUS_DISABLED_ON_SERVER:
+            for item in sspmanager_ui.MENUS_DISABLED_ON_SERVER:
                 self.GetMenuBar().FindItemById(item).Enable(False)
             if self.ref_monitor:
                 self.ref_monitor.set_ssp(None)

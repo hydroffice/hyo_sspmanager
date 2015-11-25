@@ -4,7 +4,7 @@ import wx
 import os
 
 
-class SettingsViewerBase(wx.Frame):
+class UserInputsViewerBase(wx.Frame):
 
     here = os.path.abspath(os.path.dirname(__file__))
 
@@ -29,16 +29,16 @@ class SettingsViewerBase(wx.Frame):
         if os.name == 'nt':
             # This is needed to display the app icon on the taskbar on Windows 7
             import ctypes
-            app_id = 'SSP Manager - Setting Viewer'
+            app_id = 'SSP Manager - User Inputs Viewer'
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
-        self.SetTitle("Settings Viewer")
+        self.SetTitle("User Inputs Viewer")
         self.SetSize((500, 500))
         self.SettingsViewerFrame_statusbar.SetStatusWidths([-1, 400])
         # statusbar fields
-        SettingsViewerFrame_statusbar_fields = ["", ""]
-        for i in range(len(SettingsViewerFrame_statusbar_fields)):
-            self.SettingsViewerFrame_statusbar.SetStatusText(SettingsViewerFrame_statusbar_fields[i], i)
+        UserInputsViewerFrame_statusbar_fields = ["", ""]
+        for i in range(len(UserInputsViewerFrame_statusbar_fields)):
+            self.SettingsViewerFrame_statusbar.SetStatusText(UserInputsViewerFrame_statusbar_fields[i], i)
 
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)

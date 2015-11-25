@@ -22,7 +22,8 @@ class GeoMonitorBase(wx.Frame):
         self.__do_layout()
 
     def __set_properties(self):
-        favicon = wx.Icon(os.path.join(self.here, 'favicon.ico'), wx.BITMAP_TYPE_ICO, 32, 32)
+        favicon = wx.Icon(os.path.join(self.here, 'media', 'favicon.png'),
+                          wx.BITMAP_TYPE_PNG, 32, 32)
         wx.Frame.SetIcon(self, favicon)
 
         if os.name == 'nt':

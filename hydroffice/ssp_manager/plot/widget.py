@@ -176,7 +176,7 @@ class Widget(QtGui.QMainWindow):
 
         self.selection_mode = self.selection_modes["Zoom"]
         self.prj.s.flag = 0
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
         self.update_plot()
 
     def _activate_flag(self):
@@ -184,7 +184,7 @@ class Widget(QtGui.QMainWindow):
 
         self.selection_mode = self.selection_modes["Flag"]
         self.prj.s.flag = 1  # '1' -> flag data
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
         self.update_plot()
 
     def _activate_unflag(self):
@@ -192,7 +192,7 @@ class Widget(QtGui.QMainWindow):
 
         self.selection_mode = self.selection_modes["Flag"]
         self.prj.s.flag = 3  # '3' -> unflag data
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
         self.update_plot()
 
     def _activate_insert(self):
@@ -200,7 +200,7 @@ class Widget(QtGui.QMainWindow):
 
         self.selection_mode = self.selection_modes["Insert"]
         self.prj.s.flag = 0
-        self.prj.s.clear_user_samples()
+        self.prj.u.clear_user_samples()
         self.update_plot()
 
     def print_info(self, info):

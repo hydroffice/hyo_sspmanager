@@ -5,12 +5,12 @@ import logging
 
 log = logging.getLogger(__name__)
 
-from . import svpeditor
+from . import sspmanager
 
 
 def gui():
     app = wx.App(False)
-    svp_editor = svpeditor.SVPEditor()
+    svp_editor = sspmanager.SVPEditor()
     app.SetTopWindow(svp_editor)
     svp_editor.Show()
     app.MainLoop()
