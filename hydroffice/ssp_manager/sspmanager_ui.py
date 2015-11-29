@@ -89,7 +89,8 @@ MENU_TOOLS_SET_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_CLEAR_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_EDIT_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_REFERENCE = wx.NewId()
-MENU_TOOLS_SETTINGS = wx.NewId()
+MENU_TOOLS_VIEW_SETTINGS = wx.NewId()
+MENU_TOOLS_RELOAD_SETTINGS = wx.NewId()
 MENU_TOOLS_USER_INPUTS = wx.NewId()
 MENU_TOOLS_REF_MON = wx.NewId()
 MENU_TOOLS_GEO_MONITOR = wx.NewId()
@@ -123,7 +124,7 @@ MENUS_ALL = (MENU_FILE_IMP, MENU_FILE_IMP_CASTAWAY, MENU_FILE_IMP_DIGIBAR, MENU_
              MENU_SERVER_START, MENU_SERVER_SEND, MENU_SERVER_STOP, MENU_SERVER_LOG_METADATA,
              MENU_TOOLS_GEO_MONITOR, MENU_TOOLS_REF_MON,
              MENU_TOOLS_SET_REFERENCE_CAST, MENU_TOOLS_EDIT_REFERENCE_CAST, MENU_TOOLS_CLEAR_REFERENCE_CAST,
-             MENU_TOOLS_SETTINGS,
+             MENU_TOOLS_VIEW_SETTINGS, MENU_TOOLS_RELOAD_SETTINGS,
              MENU_TOOLS_USER_INPUTS)
 
 MENUS_DISABLED_ON_CLOSED = (
@@ -434,12 +435,15 @@ class SSPManagerBase(wx.Frame):
         self.ToolsMenu.AppendMenu(MENU_TOOLS_REFERENCE, "Reference cast", ReferenceMenu,
                                   "Actions about a reference cast")
         self.ToolsMenu.AppendSeparator()
-        self.ToolsUserInputs = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_USER_INPUTS, "User inputs",
+        self.ToolsUserInputs = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_USER_INPUTS, "Monitor user inputs",
                                            "Provide information about user inputs", wx.ITEM_NORMAL)
         self.ToolsMenu.AppendItem(self.ToolsUserInputs)
-        self.ToolsInfoSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_SETTINGS, "Info settings",
-                                             "Provide settings information", wx.ITEM_NORMAL)
-        self.ToolsMenu.AppendItem(self.ToolsInfoSettings)
+        self.ToolsViewSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_VIEW_SETTINGS, "View SSP settings",
+                                             "Show SSP settings information", wx.ITEM_NORMAL)
+        self.ToolsMenu.AppendItem(self.ToolsViewSettings)
+        self.ToolsReloadSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_RELOAD_SETTINGS, "Reload SSP settings",
+                                               "Reload SSP settings information", wx.ITEM_NORMAL)
+        self.ToolsMenu.AppendItem(self.ToolsReloadSettings)
         self.SVPEditorFrame_menubar.Append(self.ToolsMenu, "Tools")
 
         self.HelpMenu = wx.Menu()
@@ -528,7 +532,8 @@ class SSPManagerBase(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_tools_edit_reference_cast, self.ToolsEditReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_clear_reference_cast, self.ToolsClearReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_user_inputs, self.ToolsUserInputs)
-        self.Bind(wx.EVT_MENU, self.on_tools_info_settings, self.ToolsInfoSettings)
+        self.Bind(wx.EVT_MENU, self.on_tools_view_settings, self.ToolsViewSettings)
+        self.Bind(wx.EVT_MENU, self.on_tools_reload_settings, self.ToolsReloadSettings)
 
         self.Bind(wx.EVT_MENU, self.on_help_manual, self.HelpManual)
         self.Bind(wx.EVT_MENU, self.on_help_about, self.HelpAbout)
@@ -565,18 +570,6 @@ class SSPManagerBase(wx.Frame):
 
     def on_process_log_metadata(self, event):
         log.info("Event handler 'on_process_log_metadata' not implemented!")
-        event.Skip()
-
-    def on_tools_set_reference_cast(self, event):
-        log.info("Event handler 'on_tools_set_reference_cast' not implemented!")
-        event.Skip()
-
-    def on_tools_edit_reference_cast(self, event):
-        log.info("Event handler 'on_tools_edit_reference_cast' not implemented!")
-        event.Skip()
-
-    def on_tools_clear_reference_cast(self, event):
-        log.info("Event handler 'on_tools_clear_reference_cast' not implemented!")
         event.Skip()
 
     def on_file_import_castaway(self, event):
@@ -787,8 +780,16 @@ class SSPManagerBase(wx.Frame):
         log.info("Event handler 'on_tools_user_inputs' not implemented!")
         event.Skip()
 
-    def on_tools_info_settings(self, event):
-        log.info("Event handler 'on_tools_info_settings' not implemented!")
+    def on_tools_set_reference_cast(self, event):
+        log.info("Event handler 'on_tools_set_reference_cast' not implemented!")
+        event.Skip()
+
+    def on_tools_edit_reference_cast(self, event):
+        log.info("Event handler 'on_tools_edit_reference_cast' not implemented!")
+        event.Skip()
+
+    def on_tools_clear_reference_cast(self, event):
+        log.info("Event handler 'on_tools_clear_reference_cast' not implemented!")
         event.Skip()
 
     def on_tools_server_start(self, event):
@@ -805,6 +806,14 @@ class SSPManagerBase(wx.Frame):
 
     def on_tools_server_log_metadata(self, event):
         log.info("Event handler 'on_tools_server_log_metadata' not implemented!")
+        event.Skip()
+
+    def on_tools_view_settings(self, event):
+        log.info("Event handler 'on_tools_view_settings' not implemented!")
+        event.Skip()
+
+    def on_tools_reload_settings(self, event):
+        log.info("Event handler 'on_tools_reload_settings' not implemented!")
         event.Skip()
 
     def on_help_manual(self, event):

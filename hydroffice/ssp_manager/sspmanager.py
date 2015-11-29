@@ -127,7 +127,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         self.p = PlotsSettings()
         self.ref_monitor = None
         self.geo_monitor = None
-        self.set_viewer = None
+        self.settings_viewer = None
         self.inputs_viewer = None
         self.init_ui()
 
@@ -170,7 +170,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         # Other graphical panels are instantiated and are only shown when requested
         self.ref_monitor = refmonitor.RefMonitor(self.prj.km_listener)
         self.geo_monitor = geomonitor.GeoMonitor(self.prj.km_listener)
-        self.set_viewer = settingsviewer.SettingsViewer(self.prj.s)
+        self.settings_viewer = settingsviewer.SettingsViewer(self.prj.s)
         self.inputs_viewer = userinputsviewer.UserInputsViewer(parent=self, ssp_user_inputs=self.prj.u)
 
     def on_context(self, event):
@@ -612,9 +612,9 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         if self.inputs_viewer:
             log.info("killing user inputs viewer")
             self.inputs_viewer.OnExit()
-        if self.set_viewer:
+        if self.settings_viewer:
             log.info("killing settings viewer")
-            self.set_viewer.OnExit()
+            self.settings_viewer.OnExit()
 
         if self.status_timer:
             log.info("stopping status timer")
@@ -1954,8 +1954,11 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
     def on_tools_user_inputs(self, evt):
         self.inputs_viewer.OnShow()
 
-    def on_tools_info_settings(self, evt):
-        self.set_viewer.OnShow()
+    def on_tools_view_settings(self, evt):
+        self.settings_viewer.OnShow()
+
+    def on_tools_reload_settings(self, evt):
+        self.prj.s.load_settings_from_db()
 
     # ### SERVER ###
 
