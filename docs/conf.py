@@ -195,7 +195,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'HydrOfficeSSPManager.tex', u'HydrOffice SSP Manager Documentation',
-   u'University of New Hampshire, Center for Coastal and Ocean Mapping', 'manual'),
+   u'UNH, CCOM', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -239,8 +239,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'HydrOfficeSSPManager', u'HydrOffice SSP Manager Documentation',
-   u'University of New Hampshire, Center for Coastal and Ocean Mapping', 'HydrOfficeSSPManager',
-   'Application for HydrOffice framework.', 'Miscellaneous'),
+   u'University of New Hampshire, Center for Coastal and Ocean Mapping', 'HydrOfficeSSPManager', 'Application for HydrOffice framework.',
+   'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.

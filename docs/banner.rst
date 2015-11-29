@@ -1,5 +1,6 @@
+******
 Banner
-======
+******
 
 .. code-block:: python
 

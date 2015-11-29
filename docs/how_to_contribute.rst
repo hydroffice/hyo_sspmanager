@@ -1,5 +1,6 @@
+*****************
 How to contribute
-=================
+*****************
 
 Every open source project lives from the generous help by contributors that sacrifice their time and this is no different.
 

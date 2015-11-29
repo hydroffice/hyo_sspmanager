@@ -1,8 +1,9 @@
+**************
 How to release
-==============
+**************
 
 Versioning
-----------
+==========
 
 You might want to install ``bumpversion``, so that you can run something like:
 

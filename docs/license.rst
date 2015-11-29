@@ -1,5 +1,6 @@
+*******
 License
-=======
+*******
 
 Copyright Notice and License Terms for 
 hyo_base - Base package for HydrOffice

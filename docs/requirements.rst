@@ -1,5 +1,6 @@
+************
 Requirements
-============
+************
 
 * `PySide <https://github.com/PySide/PySide>`_
 * `numpy <https://github.com/numpy/numpy>`_

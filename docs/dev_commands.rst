@@ -1,12 +1,13 @@
+**********************
 Development cheatsheet
-======================
+**********************
 
 
 Useful Mercurial commands
--------------------------
+=========================
 
 Merge a branch to default
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 * ``hg update default``
 * ``hg merge 2.0.0``
@@ -15,7 +16,7 @@ Merge a branch to default
 * ``hg commit -m"Close 2.0.0 branch" -ugiumas --close-branch``
 
 Open a new branch
-~~~~~~~~~~~~~~~~~
+-----------------
 
 * ``hg update default``
 * ``hg branch 2.0.1``
@@ -24,10 +25,10 @@ Open a new branch
 
 
 Useful git commands
--------------------
+===================
 
 Syncing a fork (without SourceTree)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------
 
 Add a remote that points to the upstream repo (from the forked project folder):
 
@@ -49,7 +50,7 @@ Finally:
 * :``git push origin master``
 
 Reset the fork
-~~~~~~~~~~~~~~
+--------------
 
 * ``git remote add upstream https://github.com/HDFGroup/hdf-compass``
 * ``git fetch upstream``
@@ -63,7 +64,7 @@ In case of need to retrieve the original code status:
 
 
 Documentation
--------------
+=============
 
 The documentation is built using ``phinx``:
 
@@ -81,7 +82,7 @@ To update the API documentation:
 
 
 PyPi
-----
+====
 
 Some instructions can be found `here <https://wiki.python.org/moin/TestPyPI>`_:
 
@@ -92,7 +93,7 @@ Some instructions can be found `here <https://wiki.python.org/moin/TestPyPI>`_:
 
 
 Github mirror
--------------
+=============
 
 You need to have `hggit <http://hg-git.github.io/>`_ installed.
 

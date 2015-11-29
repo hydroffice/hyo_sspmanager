@@ -1,1 +1,0 @@
-You need to provide at least favicon.ico and hyo_button.ico
