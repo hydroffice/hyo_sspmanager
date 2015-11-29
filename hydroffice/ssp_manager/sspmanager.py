@@ -46,7 +46,7 @@ from hydroffice.ssp.helper import Helper, SspError
 from hydroffice.ssp.atlases.woa09checker import Woa09Checker
 
 
-class SVPEditor(sspmanager_ui.SVPEditorBase):
+class SSPManager(sspmanager_ui.SSPManagerBase):
     here = os.path.abspath(os.path.dirname(__file__))
 
     gui_state = {
@@ -56,7 +56,7 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
     }
 
     def __init__(self):
-        sspmanager_ui.SVPEditorBase.__init__(self, None, -1, "")
+        sspmanager_ui.SSPManagerBase.__init__(self, None, -1, "")
 
         self.version = __version__
         self.license = __license__
@@ -93,8 +93,10 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
         else:
             with_woa09 = True
 
+        with_rtofs = True
+
         # We load WOA09 atlas and attempt the RTOFS atlas (since it requires internet connection)
-        self.prj = project.Project(with_listeners=True, with_woa09=with_woa09, with_rtofs=True)
+        self.prj = project.Project(with_listeners=True, with_woa09=with_woa09, with_rtofs=with_rtofs)
 
         # check listeners
         if not self.prj.has_running_listeners():
@@ -105,14 +107,14 @@ class SVPEditor(sspmanager_ui.SVPEditorBase):
             dlg.Destroy()
 
         # check woa09 atlas
-        if not self.prj.woa09_atlas_loaded:
+        if (not self.prj.woa09_atlas_loaded) and with_woa09:
             msg = 'Error: failed on World Ocean Atlas grid file load'
             dlg = wx.MessageDialog(None, msg, "Error", wx.OK | wx.ICON_ERROR)
             dlg.ShowModal()
             dlg.Destroy()
 
         # check rtofs atlas
-        if not self.prj.rtofs_atlas_loaded:
+        if (not self.prj.rtofs_atlas_loaded) and with_rtofs:
             msg = 'Warning: failure in RTOFS atlas loading (internet connectivity required).\n' \
                   'RTOFS queries disabled.'
             dlg = wx.MessageDialog(None, msg, "Error", wx.OK | wx.ICON_ERROR)

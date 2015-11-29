@@ -1,17 +1,18 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime as dt
+import logging
 
 import wx
-from . import wxmpl
-from pylab import *
 from mpl_toolkits.basemap import Basemap
-import logging
+from pylab import *
+
+from . import wxmpl
 
 log = logging.getLogger(__name__)
 
 from . import geomonitor_ui
-from hydroffice.ssp.drivers.km import kmio
+from hydroffice.ssp.io import kmio
 from hydroffice.ssp.helper import SspError
 from hydroffice.base.timerthread import TimerThread
 

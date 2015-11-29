@@ -157,7 +157,7 @@ MENUS_DISABLED_ON_SERVER = (
     MENU_SERVER_START)
 
 
-class SVPEditorBase(wx.Frame):
+class SSPManagerBase(wx.Frame):
     def __init__(self, *args, **kwds):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)

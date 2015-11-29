@@ -13,10 +13,10 @@ class UserInputsViewerBase(wx.Frame):
         wx.Frame.__init__(self, *args, **kwds)
         
         # Menu Bar
-        self.SettingsViewerFrame_menubar = wx.MenuBar()
-        self.SetMenuBar(self.SettingsViewerFrame_menubar)
+        self.UserInputsFrame_menubar = wx.MenuBar()
+        self.SetMenuBar(self.UserInputsFrame_menubar)
         # Menu Bar end
-        self.SettingsViewerFrame_statusbar = self.CreateStatusBar(2, 0)
+        self.UserInputsFrame_statusbar = self.CreateStatusBar(2, 0)
 
         self.__set_properties()
         self.__do_layout()
@@ -34,11 +34,11 @@ class UserInputsViewerBase(wx.Frame):
 
         self.SetTitle("User Inputs Viewer")
         self.SetSize((600, 600))
-        self.SettingsViewerFrame_statusbar.SetStatusWidths([-1, 400])
+        self.UserInputsFrame_statusbar.SetStatusWidths([-1, 400])
         # statusbar fields
         UserInputsViewerFrame_statusbar_fields = ["", ""]
         for i in range(len(UserInputsViewerFrame_statusbar_fields)):
-            self.SettingsViewerFrame_statusbar.SetStatusText(UserInputsViewerFrame_statusbar_fields[i], i)
+            self.UserInputsFrame_statusbar.SetStatusText(UserInputsViewerFrame_statusbar_fields[i], i)
 
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)

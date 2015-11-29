@@ -1,8 +1,9 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import math
-import numpy as np
 import logging
+import math
+
+import numpy as np
 
 log = logging.getLogger(__name__)
 
@@ -17,8 +18,7 @@ import wx
 from . import wxmpl
 
 from . import refmonitor_ui
-
-from hydroffice.ssp.drivers.km import kmio
+from hydroffice.ssp.io import kmio
 from hydroffice.ssp.helper import SspError
 from hydroffice.ssp.ssp_dicts import Dicts
 from hydroffice.base.timerthread import TimerThread
