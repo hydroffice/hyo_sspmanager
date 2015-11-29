@@ -19,6 +19,7 @@ Contents
    how_to_contribute
    api
    how_to_release
+   how_to_freeze
    dev_commands
    banner
    app_a_oceanographic_atlases

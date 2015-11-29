@@ -2103,15 +2103,17 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
     # ####### HELP ######
 
     def on_help_manual(self, event):
-        """
-        open manual
-        """
-        manual_path = os.path.abspath(os.path.join(self.here, os.path.pardir, "docs", "manual.pdf"))
-        if not os.path.isfile(manual_path):
-            log.warning("missing manual at: %s" % manual_path)
-            return
-        log.info("open manual: %s" % manual_path)
-        Helper.explore_folder(manual_path)
+        """ Open manual """
+        # manual_path = os.path.abspath(os.path.join(self.here, os.path.pardir, "docs", "manual.pdf"))
+        # if not os.path.isfile(manual_path):
+        #     log.warning("missing manual at: %s" % manual_path)
+        #     return
+        # log.info("open manual: %s" % manual_path)
+        # Helper.explore_folder(manual_path)
+
+        # Open the url with the online documentation for SSP Manager
+        import webbrowser
+        webbrowser.open('http://giumas.github.io/hyo_ssp_manager/latest/index.html')
 
     def on_help_about(self, e):
         """Info about the application"""

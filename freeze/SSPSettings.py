@@ -31,5 +31,5 @@ ch.addFilter(KmIOFilter())
 logger.addHandler(ch)
 
 
-from hydroffice.ssp_manager import ssp_gui
+from hydroffice.ssp_settings import ssp_gui
 ssp_gui.gui()

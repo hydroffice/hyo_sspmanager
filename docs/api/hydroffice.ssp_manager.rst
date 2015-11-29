@@ -1,14 +1,6 @@
 hydroffice.ssp_manager package
 ==============================
 
-Subpackages
------------
-
-.. toctree::
-
-    hydroffice.ssp_manager.newgui
-    hydroffice.ssp_manager.plot
-
 Submodules
 ----------
 

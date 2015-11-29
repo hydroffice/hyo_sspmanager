@@ -1,12 +1,13 @@
-# Builds a single-folder EXE for distribution.
+# -*- mode: python -*-
+# Builds a single-file EXE for distribution.
 # Note that an "unbundled" distribution launches much more quickly, but
 # requires an installer program to distribute.
 #
 # To compile, execute the following within the source directory:
 #
-# python /path/to/pyinstaller.py SSPManager.1folder.spec
+# python /path/to/pyinstaller.py SSPSettings.1file.spec
 #
-# The resulting .exe file is placed in the dist/SSP folder.
+# The resulting .exe file is placed in the dist/ folder.
 
 from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT, BUNDLE, TOC
 from PyInstaller import is_darwin
@@ -36,34 +37,34 @@ def collect_pkg_data(package, include_py_files=False, subdir=None):
 
     return data_toc
 
-pkg_data = collect_pkg_data('hydroffice.ssp_manager')
+pkg_data = collect_pkg_data('hydroffice.ssp_settings')
 
-icon_file = 'freeze\SSPManager.ico'
+icon_file = 'freeze\SSPSettings.ico'
 if is_darwin:
-    icon_file = 'freeze\SSPManager.icns'
+    icon_file = 'freeze\SSPSettings.icns'
 
-a = Analysis(['SSPManager.py'],
+a = Analysis(['SSPSettings.py'],
              pathex=[],
              hiddenimports=[],
-             excludes=["IPython", "PySide", "pandas", "scipy", "sphinx", "sphinx_rtd_theme", "OpenGL_accelerate"],
+             excludes=["PySide", "pandas"],
              hookspath=None,
              runtime_hooks=None)
 
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=True,
-          name='SSPManager.2.0.rc1',
+          a.binaries,
+          a.zipfiles,
+          a.datas,
+          pkg_data,
+          name='SSPSettings.2.0.rc1',
           debug=False,
           strip=None,
-          upx=True,
+          upx=False,
           console=True,
           icon=icon_file)
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               pkg_data,
-               strip=None,
-               upx=True,
-               name='SSPManager.2.0.rc1')
+if is_darwin:
+    app = BUNDLE(exe,
+                 name='SSPSettings.2.0.rc1',
+                 icon=icon_file,
+                 bundle_identifier=None)

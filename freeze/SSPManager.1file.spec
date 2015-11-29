@@ -5,7 +5,7 @@
 #
 # To compile, execute the following within the source directory:
 #
-# python /path/to/pyinstaller.py SSP.1file.spec
+# python /path/to/pyinstaller.py SSPManager.1file.spec
 #
 # The resulting .exe file is placed in the dist/ folder.
 
@@ -37,16 +37,16 @@ def collect_pkg_data(package, include_py_files=False, subdir=None):
 
     return data_toc
 
-pkg_data = collect_pkg_data('hydroffice.ssp')
+pkg_data = collect_pkg_data('hydroffice.ssp_manager')
 
-icon_file = 'SSP.ico'
+icon_file = 'freeze\SSPManager.ico'
 if is_darwin:
-    icon_file = 'SSP.icns'
+    icon_file = 'freeze\SSPManager.icns'
 
-a = Analysis(['SSP.py'],
+a = Analysis(['SSPManager.py'],
              pathex=[],
              hiddenimports=[],
-             excludes=["PySide", "pandas"],
+             excludes=["IPython", "PySide", "pandas", "scipy", "sphinx", "sphinx_rtd_theme", "OpenGL_accelerate"],
              hookspath=None,
              runtime_hooks=None)
 
@@ -57,7 +57,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           pkg_data,
-          name='SSP',
+          name='SSPManager.2.0.rc1',
           debug=False,
           strip=None,
           upx=False,
@@ -65,6 +65,6 @@ exe = EXE(pyz,
           icon=icon_file)
 if is_darwin:
     app = BUNDLE(exe,
-                 name='SSP',
+                 name='SSPManager',
                  icon=icon_file,
                  bundle_identifier=None)

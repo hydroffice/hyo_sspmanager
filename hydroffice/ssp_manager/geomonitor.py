@@ -9,7 +9,7 @@ from pylab import *
 
 from . import wxmpl
 
-log = logging.getLogger(__name__)
+lgr = logging.getLogger(__name__)
 
 from . import geomonitor_ui
 from hydroffice.ssp.io import kmio
@@ -18,6 +18,7 @@ from hydroffice.base.timerthread import TimerThread
 
 
 class GeoMonitor(geomonitor_ui.GeoMonitorBase):
+    """ GeoMonitor frame """
     def __init__(self, km_listener):
         geomonitor_ui.GeoMonitorBase.__init__(self, None, -1, "")
 
@@ -25,7 +26,7 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
         self.km_listener = km_listener
         if not isinstance(km_listener, kmio.KmIO):
             if not km_listener:
-                log.info("SIS listener not active")
+                lgr.info("SIS listener not active")
                 return
             raise SspError("passed wrong instance of listener: %s" % type(km_listener))
 
@@ -80,7 +81,7 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
         x1, y1 = evt.x1data, evt.y1data
         x2, y2 = evt.x2data, evt.y2data
 
-        log.info("got zoom coords %s %s %s %s" % (x1, y1, x2, y2))
+        lgr.info("got zoom coords %s %s %s %s" % (x1, y1, x2, y2))
 
         if self.selection_mode == "Zoom":
             # Deal with case of zooming in
@@ -97,13 +98,13 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
                                  llcrnrlat=self.view_min_lat, urcrnrlat=self.view_max_lat)
                 self.is_zoomed = True
             else:
-                log.info("unknown axes")
+                lgr.info("unknown axes")
             self.update_plots()
         else:
-            log.info("nothing to do")
+            lgr.info("nothing to do")
 
     def on_hide(self, evt):
-        log.info("hidden")
+        lgr.info("hidden")
         self.hide()
 
     def hide(self):
@@ -136,7 +137,7 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
 
         self.last_latitude = self.km_listener.nav.latitude
         self.last_longitude = self.km_listener.nav.longitude
-        log.info("got position: %s, %s" % (self.last_latitude, self.last_longitude))
+        lgr.info("got position: %s, %s" % (self.last_latitude, self.last_longitude))
         self.latitude.append(self.last_latitude)
         self.longitude.append(self.last_longitude)
         msg_str = "%s, " % (self.km_listener.xyz88.dg_time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -144,12 +145,12 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
         self.GeographicMonitorFrame_statusbar.SetStatusText(msg_str, 1)
 
         if self.km_listener.xyz88.dg_time == self.last_ping_time:
-            log.info("got same ping times!")
+            lgr.info("got same ping times!")
             return
         self.last_ssp_time = self.km_listener.xyz88.dg_time
         self.last_ssp = self.km_listener.xyz88.sound_speed
         self.ssp.append(self.last_ssp)
-        log.info("got (%s, %s) -> %s" % (self.last_latitude, self.last_longitude, self.last_ssp))
+        lgr.info("got (%s, %s) -> %s" % (self.last_latitude, self.last_longitude, self.last_ssp))
         self.last_ping_time = self.km_listener.xyz88.dg_time
         if self.display_timer.is_alive():
             self.update_plots()
@@ -159,10 +160,10 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
         self.lat_step = int(lat_range / 10.0)
         lon_range = math.fabs(self.view_max_lon - self.view_min_lon)
         self.lon_step = int(lon_range / 10.0)
-        log.info("got lat/lon steps %s %s" % (self.lat_step, self.lon_step))
+        lgr.info("got lat/lon steps %s %s" % (self.lat_step, self.lon_step))
 
     def update_plots(self):
-        log.info("updating plots")
+        lgr.info("updating plots")
 
         try:
             self.map_axes.cla()
@@ -175,9 +176,9 @@ class GeoMonitor(geomonitor_ui.GeoMonitorBase):
             self.m.drawmeridians(np.arange(-180., 180., self.lon_step),
                                  labels=[0, 0, 0, 1], ax=self.map_axes)
         except:
-            log.info("failure in updating")
+            lgr.info("failure in updating")
 
         x, y = self.m(self.longitude, self.latitude)
-        log.info("got projected coords: %s %s from: %s %s" % (x, y, self.longitude, self.latitude))
+        lgr.info("got projected coords: %s %s from: %s %s" % (x, y, self.longitude, self.latitude))
         self.map_axes.plot(x, y, 'r+')
         self.plots.draw()
