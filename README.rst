@@ -7,7 +7,7 @@ HydrOffice is a research development environment for ocean mapping. Its aim is t
 SSP Manager
 -----------
 
-.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_manager/gui/media/favicon.png
+.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_manager/media/favicon.png
     :alt: logo
 
 This package provides a GUI interface to the HydrOffice SSP library. It also extends and eases the library use.
@@ -16,7 +16,7 @@ This package provides a GUI interface to the HydrOffice SSP library. It also ext
 SSP Settings
 ------------
 
-.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_settings/gui/media/favicon.png
+.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_settings/media/favicon.png
     :alt: logo
 
 This package provides functionalities to deal with configuration of the HydrOffice SSP library.
