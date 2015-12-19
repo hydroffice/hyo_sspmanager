@@ -60,6 +60,8 @@ configuration settings (e.g., the SIS IP address and ports).
 Use the `SSP Settings <https://bitbucket.org/ccomjhc/hyo_ssp_settings>`_ application to modify the available
 configuration options.
 
+.. note:: If you want to use the RTOFS data, Internet (and the port 9090) must be accessible from the machine in use.
+
 
 SSP-SIS interaction
 ===================

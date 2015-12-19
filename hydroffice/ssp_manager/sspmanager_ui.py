@@ -89,6 +89,7 @@ MENU_TOOLS_SET_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_CLEAR_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_EDIT_REFERENCE_CAST = wx.NewId()
 MENU_TOOLS_REFERENCE = wx.NewId()
+MENU_TOOLS_MODIFY_SETTINGS = wx.NewId()
 MENU_TOOLS_VIEW_SETTINGS = wx.NewId()
 MENU_TOOLS_RELOAD_SETTINGS = wx.NewId()
 MENU_TOOLS_USER_INPUTS = wx.NewId()
@@ -124,7 +125,7 @@ MENUS_ALL = (MENU_FILE_IMP, MENU_FILE_IMP_CASTAWAY, MENU_FILE_IMP_DIGIBAR, MENU_
              MENU_SERVER_START, MENU_SERVER_SEND, MENU_SERVER_STOP, MENU_SERVER_LOG_METADATA,
              MENU_TOOLS_GEO_MONITOR, MENU_TOOLS_REF_MON,
              MENU_TOOLS_SET_REFERENCE_CAST, MENU_TOOLS_EDIT_REFERENCE_CAST, MENU_TOOLS_CLEAR_REFERENCE_CAST,
-             MENU_TOOLS_VIEW_SETTINGS, MENU_TOOLS_RELOAD_SETTINGS,
+             MENU_TOOLS_MODIFY_SETTINGS, MENU_TOOLS_VIEW_SETTINGS, MENU_TOOLS_RELOAD_SETTINGS,
              MENU_TOOLS_USER_INPUTS)
 
 MENUS_DISABLED_ON_CLOSED = (
@@ -438,6 +439,9 @@ class SSPManagerBase(wx.Frame):
         self.ToolsUserInputs = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_USER_INPUTS, "Monitor user inputs",
                                            "Provide information about user inputs", wx.ITEM_NORMAL)
         self.ToolsMenu.AppendItem(self.ToolsUserInputs)
+        self.ToolsModifySettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_MODIFY_SETTINGS, "Modify SSP settings",
+                                             "Open tool to modify SSP settings", wx.ITEM_NORMAL)
+        self.ToolsMenu.AppendItem(self.ToolsModifySettings)
         self.ToolsViewSettings = wx.MenuItem(self.ToolsMenu, MENU_TOOLS_VIEW_SETTINGS, "View SSP settings",
                                              "Show SSP settings information", wx.ITEM_NORMAL)
         self.ToolsMenu.AppendItem(self.ToolsViewSettings)
@@ -532,6 +536,7 @@ class SSPManagerBase(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_tools_edit_reference_cast, self.ToolsEditReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_clear_reference_cast, self.ToolsClearReferenceCast)
         self.Bind(wx.EVT_MENU, self.on_tools_user_inputs, self.ToolsUserInputs)
+        self.Bind(wx.EVT_MENU, self.on_tools_modify_settings, self.ToolsModifySettings)
         self.Bind(wx.EVT_MENU, self.on_tools_view_settings, self.ToolsViewSettings)
         self.Bind(wx.EVT_MENU, self.on_tools_reload_settings, self.ToolsReloadSettings)
 
@@ -540,7 +545,7 @@ class SSPManagerBase(wx.Frame):
 
     def __set_properties(self):
         self.SetTitle("SSP Manager")
-        self.SetSize((1000, 800))
+        # self.SetSize((1100, 700))
         self.frame_statusbar.SetStatusWidths([-1, 400])
         SSPManFrame_statusbar_fields = ["", ""]
         for i in range(len(SSPManFrame_statusbar_fields)):
@@ -550,7 +555,6 @@ class SSPManagerBase(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(sizer_1)
         self.Layout()
-        self.SetSize((1000, 800))
 
     def on_file_query_woa09(self, event):
         log.info("Event handler 'on_file_query_woa09' not implemented!")
@@ -806,6 +810,10 @@ class SSPManagerBase(wx.Frame):
 
     def on_tools_server_log_metadata(self, event):
         log.info("Event handler 'on_tools_server_log_metadata' not implemented!")
+        event.Skip()
+
+    def on_tools_modify_settings(self, event):
+        log.info("Event handler 'on_tools_modify_settings' not implemented!")
         event.Skip()
 
     def on_tools_view_settings(self, event):

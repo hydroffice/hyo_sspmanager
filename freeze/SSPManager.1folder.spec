@@ -37,6 +37,7 @@ def collect_pkg_data(package, include_py_files=False, subdir=None):
     return data_toc
 
 pkg_data = collect_pkg_data('hydroffice.ssp_manager')
+pkg_data_2 = collect_pkg_data('hydroffice.ssp_settings')
 
 icon_file = 'freeze\SSPManager.ico'
 if is_darwin:
@@ -44,8 +45,8 @@ if is_darwin:
 
 a = Analysis(['SSPManager.py'],
              pathex=[],
-             hiddenimports=[],
-             excludes=["IPython", "PySide", "pandas", "scipy", "sphinx", "sphinx_rtd_theme", "OpenGL_accelerate"],
+             hiddenimports=["PIL",],
+             excludes=["IPython", "PySide", "PyQt", "pandas", "scipy", "sphinx", "sphinx_rtd_theme", "OpenGL_accelerate"],
              hookspath=None,
              runtime_hooks=None)
 
@@ -53,7 +54,7 @@ pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='SSPManager.2.0.rc1',
+          name='SSPManager.2.0.rc2',
           debug=False,
           strip=None,
           upx=True,
@@ -64,6 +65,7 @@ coll = COLLECT(exe,
                a.zipfiles,
                a.datas,
                pkg_data,
+			   pkg_data_2,
                strip=None,
                upx=True,
-               name='SSPManager.2.0.rc1')
+               name='SSPManager.2.0.rc2')

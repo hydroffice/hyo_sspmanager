@@ -7,12 +7,13 @@ log = logging.getLogger(__name__)
 
 from . import ssp_settings
 
-from wx.lib.mixins.inspection import InspectionMixin
+# from wx.lib.mixins.inspection import InspectionMixin
+
 
 def gui():
-    app = wx.App(False, InspectionMixin)
-    svp_editor = ssp_settings.SSPSettings(parent=None)
-    app.SetTopWindow(svp_editor)
-    svp_editor.Show()
+    app = wx.App(False) # , InspectionMixin)
+    settings = ssp_settings.SSPSettings(parent=None)
+    app.SetTopWindow(settings)
+    settings.Show()
     app.MainLoop()
 
