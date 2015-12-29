@@ -9,7 +9,7 @@ import logging
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
-__version__ = '0.2.0'
+__version__ = '2.1.0'
 __doc__ = "SSP Settings"
 __author__ = 'gmasetti@ccom.unh.edu'
 __license__ = 'BSD license'
