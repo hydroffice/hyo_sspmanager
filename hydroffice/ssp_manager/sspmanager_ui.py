@@ -461,7 +461,7 @@ class SSPManagerBase(wx.Frame):
         self.SVPEditorFrame_menubar.Append(self.HelpMenu, "Help")
         self.SetMenuBar(self.SVPEditorFrame_menubar)
 
-        self.frame_statusbar = self.CreateStatusBar(2, 0)
+        self.frame_statusbar = self.CreateStatusBar(2)
         self.__set_properties()
         self.__do_layout()
 

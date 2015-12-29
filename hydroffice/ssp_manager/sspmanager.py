@@ -2351,7 +2351,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         if self.prj.km_listener.nav is not None:
             # time stamp
             if self.prj.km_listener.nav.dg_time is not None:
-                sis_info_str = "%s, " % (self.prj.km_listener.nav.dg_time.strftime("%Y-%m-%d %H:%M:%S"))
+                sis_info_str = "%s, " % (self.prj.km_listener.nav.dg_time.strftime("%H:%M:%S"))
 
             else:
                 sis_info_str = "NA, "

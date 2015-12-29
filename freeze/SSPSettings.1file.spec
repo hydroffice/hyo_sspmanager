@@ -57,7 +57,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           pkg_data,
-          name='SSPSettings.2.0.rc2',
+          name='SSPSettings.2.0',
           debug=False,
           strip=None,
           upx=False,
@@ -65,6 +65,6 @@ exe = EXE(pyz,
           icon=icon_file)
 if is_darwin:
     app = BUNDLE(exe,
-                 name='SSPSettings.2.0.rc1',
+                 name='SSPSettings.2.0',
                  icon=icon_file,
                  bundle_identifier=None)

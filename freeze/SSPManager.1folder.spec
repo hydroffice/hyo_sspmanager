@@ -54,7 +54,7 @@ pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='SSPManager.2.0.rc2',
+          name='SSPManager.2.0',
           debug=False,
           strip=None,
           upx=True,
@@ -68,4 +68,4 @@ coll = COLLECT(exe,
 			   pkg_data_2,
                strip=None,
                upx=True,
-               name='SSPManager.2.0.rc2')
+               name='SSPManager.2.0')
