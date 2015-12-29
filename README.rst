@@ -7,7 +7,8 @@ HydrOffice is a research development environment for ocean mapping. Its aim is t
 SSP Manager
 -----------
 
-![logo](https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_manager/gui/media/favicon.png)
+.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_manager/media/favicon.png
+    :alt: logo
 
 This package provides a GUI interface to the HydrOffice SSP library. It also extends and eases the library use.
 
@@ -15,7 +16,8 @@ This package provides a GUI interface to the HydrOffice SSP library. It also ext
 SSP Settings
 ------------
 
-![logo](https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_settings/gui/media/favicon.png)
+.. image:: https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/hydroffice/ssp_settings/media/favicon.png
+    :alt: logo
 
 This package provides functionalities to deal with configuration of the HydrOffice SSP library.
 
@@ -24,6 +26,6 @@ This package provides functionalities to deal with configuration of the HydrOffi
 Other info
 ----------
 
-* Bitbucket: [https://bitbucket.org/ccomjhc/hyo_ssp_manager](https://bitbucket.org/ccomjhc/hyo_ssp_manager)
-* Project page: [http://ccom.unh.edu/project/hydroffice](http://ccom.unh.edu/project/hydroffice)
-* License: BSD license (See [COPYING](https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/LICENSE))
+* Bitbucket: `https://bitbucket.org/ccomjhc/hyo_ssp_manager <https://bitbucket.org/ccomjhc/hyo_ssp_manager>`_
+* Project page: `http://ccom.unh.edu/project/hydroffice <http://ccom.unh.edu/project/hydroffice>`_
+* License: `BSD license <https://bitbucket.org/ccomjhc/hyo_ssp_manager/raw/tip/LICENSE>`_

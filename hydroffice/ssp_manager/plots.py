@@ -1,5 +1,21 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+from matplotlib import rcParams
+rcParams.update(
+    {
+        'font.family': 'sans-serif',
+        # 'font.size': 7,
+        # 'axes.labelcolor': '#333333',
+        'axes.edgecolor': '#333333',
+        'grid.color': '#aaaaaa',
+        'axes.titlesize': 11,
+        # 'figure.titlesize' : 11,
+        'axes.labelsize': 9,
+        'xtick.labelsize': 7,
+        'ytick.labelsize': 7,
+    }
+)
+
 from . import wxmpl  # local version of this module, since Pydro's one has an issue
 
 

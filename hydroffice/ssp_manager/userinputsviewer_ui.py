@@ -2,6 +2,9 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import wx
 import os
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class UserInputsViewerBase(wx.Frame):
@@ -27,10 +30,13 @@ class UserInputsViewerBase(wx.Frame):
         wx.Frame.SetIcon(self, favicon)
 
         if os.name == 'nt':
-            # This is needed to display the app icon on the taskbar on Windows 7
-            import ctypes
-            app_id = 'SSP Manager - User Inputs Viewer'
-            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+            try:
+                # This is needed to display the app icon on the taskbar on Windows 7
+                import ctypes
+                app_id = 'SSP Manager - User Inputs Viewer'
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+            except AttributeError as e:
+                log.debug("Unable to change app icon: %s" % e)
 
         self.SetTitle("User Inputs Viewer")
         self.SetSize((600, 600))

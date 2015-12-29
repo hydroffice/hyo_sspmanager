@@ -1,9 +1,9 @@
-.. HydrOffice Base documentation master file, created by
+.. HydrOffice SSP Manager documentation master file, created by
    sphinx-quickstart on Sun Oct 18 16:44:37 2015.
-
-*******************************
-HydrOffice Base's documentation
-*******************************
+   
+**************************************
+HydrOffice SSP Manager's documentation
+**************************************
 
 Contents
 ========

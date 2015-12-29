@@ -10,13 +10,6 @@ import copy
 
 import numpy as np
 import matplotlib.patches
-from matplotlib import rcParams
-rcParams.update(
-    {
-        'font.family': 'sans-serif',
-        'font.size': 7
-    }
-)
 import wx
 from wx import PyDeadObjectError
 from . import wxmpl  # local version of this module, since Pydro's one has an issue
@@ -44,6 +37,7 @@ from hydroffice.ssp.ssp_dicts import Dicts
 from hydroffice.ssp.ssp_collection import SspCollection
 from hydroffice.ssp.helper import Helper, SspError
 from hydroffice.ssp.atlases.woa09checker import Woa09Checker
+from hydroffice.ssp_settings import ssp_settings
 
 
 class SSPManager(sspmanager_ui.SSPManagerBase):
@@ -108,16 +102,17 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
 
         # check woa09 atlas
         if (not self.prj.woa09_atlas_loaded) and with_woa09:
-            msg = 'Error: failed on World Ocean Atlas grid file load'
+            msg = 'Unable to load World Ocean Atlas grid file'
             dlg = wx.MessageDialog(None, msg, "Error", wx.OK | wx.ICON_ERROR)
             dlg.ShowModal()
             dlg.Destroy()
 
         # check rtofs atlas
         if (not self.prj.rtofs_atlas_loaded) and with_rtofs:
-            msg = 'Warning: failure in RTOFS atlas loading (internet connectivity required).\n' \
+            msg = 'Unable to load RTOFS atlas.\n' \
+                  'To use RTOFS, Internet connectivity is required (with port 9090 open).\n' \
                   'RTOFS queries disabled.'
-            dlg = wx.MessageDialog(None, msg, "Error", wx.OK | wx.ICON_ERROR)
+            dlg = wx.MessageDialog(None, msg, "Warning", wx.OK | wx.ICON_WARNING)
             dlg.ShowModal()
             dlg.Destroy()
 
@@ -128,6 +123,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         self.ref_monitor = None
         self.geo_monitor = None
         self.settings_viewer = None
+        self.settings_tool = None
         self.inputs_viewer = None
         self.init_ui()
 
@@ -136,21 +132,26 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         self._update_state(self.gui_state["CLOSED"])
 
         # GUI timers (status bar and plots)
-        self.status_timer = TimerThread(self._update_status, timing=3)
+        self.status_timer = TimerThread(self._update_status, timing=2)
         self.status_timer.start()
-        self.plot_timer = TimerThread(self._update_plot, timing=3)
+        self.plot_timer = TimerThread(self._update_plot, timing=30)
         self.plot_timer.start()
+
+        self.SetMinSize(wx.Size(500, 300))
+        self.SetSize(wx.Size(1000, 550))
 
     def init_ui(self):
         favicon = wx.Icon(os.path.join(self.here, 'media', 'favicon.png'), wx.BITMAP_TYPE_PNG, 32, 32)
         wx.Frame.SetIcon(self, favicon)
 
         if os.name == 'nt':
-            # This is needed to display the app icon on the taskbar on Windows 7
-            import ctypes
-
-            app_id = 'SSP Manager v.%s' % self.version
-            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+            try:
+                # This is needed to display the app icon on the taskbar on Windows 7
+                import ctypes
+                app_id = 'SSP Manager v.%s' % self.version
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+            except AttributeError as e:
+                log.debug("Unable to change app icon: %s" % e)
 
         self.Bind(wx.EVT_CLOSE, self.on_file_exit)
 
@@ -392,7 +393,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
 
         self.status_message = "Synthetic WOA09 cast"
         log.info("Synthetic WOA09 cast using pos: (%.6f, %.6f) and time: %s"
-                        % (latitude, longitude, query_date))
+                 % (latitude, longitude, query_date))
 
     def on_file_query_rtofs(self, evt):
         if not self.prj.rtofs_atlas_loaded:
@@ -457,7 +458,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
 
         self.status_message = "Synthetic RTOFS cast"
         log.info("Synthetic RTOFS cast using pos: (%.6f, %.6f) and time: %s"
-                        % (latitude, longitude, query_date))
+                 % (latitude, longitude, query_date))
 
     def on_file_query_sis(self, evt):
         log.info("requesting profile from SIS")
@@ -876,7 +877,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
             return
 
         log.info("area selection: %s, %s / %s, %s"
-                        % (evt.x1data, evt.y1data, evt.x2data, evt.y2data))
+                 % (evt.x1data, evt.y1data, evt.x2data, evt.y2data))
 
         x1, y1 = evt.x1data, evt.y1data
         x2, y2 = evt.x2data, evt.y2data
@@ -1058,7 +1059,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         self.p.temp_axes.grid()
         self.p.temp_axes.axis([self.p.min_temp, self.p.max_temp, self.p.min_depth,
                                self.p.max_depth])
-        self.p.temp_axes.set_xlabel('Temp [deg. C]')
+        self.p.temp_axes.set_xlabel('Temp [deg C]')
 
         self.p.sal_axes.grid()
         self.p.sal_axes.axis([self.p.min_sal, self.p.max_sal, self.p.min_depth,
@@ -1084,7 +1085,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
                 self.p.temp_axes.set_title("%s" % os.path.basename(self.prj.filename))
 
         # plot the current mean depth (if available and the user setting is on)
-        #print("# %s %s" % (self.prj.mean_depth, self.p.display_depth))
+        # print("# %s %s" % (self.prj.mean_depth, self.p.display_depth))
         if self.prj.mean_depth and self.p.display_depth:
             # draw line on the 3 plots
             line = '#663300'
@@ -1954,6 +1955,10 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
     def on_tools_user_inputs(self, evt):
         self.inputs_viewer.OnShow()
 
+    def on_tools_modify_settings(self, evt):
+        self.settings_tool = ssp_settings.SSPSettings(parent=None)
+        self.settings_tool.Show()
+
     def on_tools_view_settings(self, evt):
         self.settings_viewer.OnShow()
 
@@ -2346,7 +2351,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         if self.prj.km_listener.nav is not None:
             # time stamp
             if self.prj.km_listener.nav.dg_time is not None:
-                sis_info_str = "%s, " % (self.prj.km_listener.nav.dg_time.strftime("%Y-%m-%d %H:%M:%S"))
+                sis_info_str = "%s, " % (self.prj.km_listener.nav.dg_time.strftime("%H:%M:%S"))
 
             else:
                 sis_info_str = "NA, "
