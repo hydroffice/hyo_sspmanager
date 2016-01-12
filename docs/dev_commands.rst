@@ -66,9 +66,9 @@ In case of need to retrieve the original code status:
 Documentation
 =============
 
-The documentation is built using ``phinx``:
+The documentation is built using ``sphinx``:
 
-* ``pip install sphinx sphinx-autobuild``
+* ``pip install sphinx``
 
 For the first time, the documentation template is created in the 'docs' folder:
 

@@ -5,7 +5,9 @@ import logging
 
 import wx
 from mpl_toolkits.basemap import Basemap
-from pylab import *
+
+import numpy as np
+import math
 
 from . import wxmpl
 
