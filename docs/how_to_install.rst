@@ -2,17 +2,22 @@
 How to install
 **************
 
-* the simplest way::
+.. index:: install; commands
+
+The simplest way::
 
     pip install hydroffice.base
 
-* for the latest features::
+
+For the latest features::
 
     hg clone ssh://hg@bitbucket.org/ccomjhc/hyo_base
 
 
 Suggested configurations
 ========================
+
+.. index:: install; configurations
 
 Given its specific aim, this hydro-package is usually installed to run in one of two configurations:
 
@@ -65,6 +70,8 @@ configuration options.
 
 SSP-SIS interaction
 ===================
+
+.. index:: interaction; SSP-SIS
 
 In order to automatically interact with *Kongsberg SIS*, some initial configuration are required on the *SIS* side
 to make it to broadcast a specific subset of datagrams that can then be interpreted by the *SSP* hydro-package

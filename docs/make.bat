@@ -148,7 +148,7 @@ if "%1" == "latex" (
 if "%1" == "latexpdf" (
 	%SPHINXBUILD% -b latex %ALLSPHINXOPTS% %BUILDDIR%/latex
 	cd %BUILDDIR%/latex
-	make all-pdf
+	CALL make all-pdf
 	cd %BUILDDIR%/..
 	echo.
 	echo.Build finished; the PDF files are in %BUILDDIR%/latex.
@@ -158,7 +158,7 @@ if "%1" == "latexpdf" (
 if "%1" == "latexpdfja" (
 	%SPHINXBUILD% -b latex %ALLSPHINXOPTS% %BUILDDIR%/latex
 	cd %BUILDDIR%/latex
-	make all-pdf-ja
+	CALL make all-pdf-ja
 	cd %BUILDDIR%/..
 	echo.
 	echo.Build finished; the PDF files are in %BUILDDIR%/latex.
@@ -236,6 +236,14 @@ if "%1" == "pseudoxml" (
 	if errorlevel 1 exit /b 1
 	echo.
 	echo.Build finished. The pseudo-XML files are in %BUILDDIR%/pseudoxml.
+	goto end
+)
+
+if "%1" == "rst2pdf" (
+	%SPHINXBUILD% -b pdf %ALLSPHINXOPTS% %BUILDDIR%/rst2pdf
+	if errorlevel 1 exit /b 1
+	echo.
+	echo.Build finished. The pseudo-XML files are in %BUILDDIR%/rst2pdf.
 	goto end
 )
 

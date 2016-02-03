@@ -20,6 +20,9 @@ processing and analysis.
 Operation modes
 ===============
 
+.. index::
+   single: mode; operation
+
 Currently, the hydro-package can operate in two mutually exclusive operation modes:
 
 1.	*Operator Mode*
@@ -51,6 +54,8 @@ Currently implemented features
   * XBT Turo (.nc)
   * University of New Brunswick (.unb)
   * Valeport Midas (.000), MiniSVP (.txt), and Monitor (.000),
+
+.. index:: format; supported inputs
 
 * Network reception of data from:
 
@@ -85,11 +90,15 @@ Currently implemented features
   * Sonardyne (.pro)
   * University of New Brunswick (.unb)
 
+.. index:: format; supported outputs
+
 * Network transmission of processed casts to data acquisition systems (see :ref:`app_b_connection_settings`):
 
   * Kongsberg Maritime SIS
   * QPS QINSy
   * Reson PDS2000
   * Hypack
+
+.. index:: transmission; supported protocols
 
 * Persistent storage of collected SSP data

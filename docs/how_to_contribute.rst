@@ -2,6 +2,8 @@
 How to contribute
 *****************
 
+.. index:: contributions
+
 Every open source project lives from the generous help by contributors that sacrifice their time and this is no different.
 
 To make participation as pleasant as possible, this project adheres to the `Code of Conduct`_ by the Python Software Foundation.
