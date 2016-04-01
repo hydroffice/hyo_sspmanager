@@ -4,9 +4,14 @@
 Operator Mode
 *************
 
+.. index::
+   single: mode; operator
 
 Data import
 ===========
+
+.. index::
+   single: data; import
 
 From the *File* menu, select *Import cast* and choose the desired import file type from the sub-menu.
 This will launch a file selection dialog (with the expected file extension set as a filter, e.g. ``.edf``
@@ -63,6 +68,8 @@ then the reference cast will be used to augment salinity and/or temperature prof
 XBT probes
 ----------
 
+.. index:: XBT
+
 XBT probes measure the temperature of water as they drop to the seafloor. Since the speed of sound in water is
 strongly affected by water temperature, this measurement can be used to estimate the sound speed profile.
 Since salinity can also influence the speed of sound in water, the accuracy of the sound speed estimate
@@ -84,6 +91,8 @@ Sound speed values are calculated using the UNESCO equation (*Fofonoff and Milla
 XSV probes
 ----------
 
+.. index:: XSV
+
 In the case of an XSV file, the user can decide to augment the measured sound speed with WOA/RTOFS temperature and
 salinity through the XSV load temperature/salinity option under the *Process* menu (the option is only active
 when an XSV cast is loaded).
@@ -93,6 +102,8 @@ Thus, the package disallows application of WOA/RTOFS salinity to XSV profiles.
 
 Manual user insertions
 ----------------------
+
+.. index:: manual insertion
 
 There are two methods to add points, after having selected the *Insert mode* in the *Visual inspection* sub-menu:
 
@@ -129,6 +140,9 @@ Using this package method, keeps the system from warning against discrepancies b
 Profile extension using WOA/RTOFS atlases or a reference cast
 -------------------------------------------------------------
 
+.. index:: WOA; extension
+.. index:: RTOFS; extension
+
 Profile extension can be applied by selecting *Extend cast* from the *Process menu*.
 This operation will extend the observed cast in depth as much as possible using the WOA/RTOFS profile.
 After that, the three plot panels will be updated. If necessary, users should edit any discontinuities
@@ -144,13 +158,19 @@ this will be used to extend the cast instead of WOA/RTOFS atlases data.
 Data storage
 ------------
 
+.. index:: database
+
 The package provides also functionalities to permantently storage, delete and retrieve the SSP data.
 In particular, each SSP may contain three types of stored data: the raw data (that makes possible
 to redo the processing from scratch), the processed samples (with flags to identify the various different source
 of data), and an optional SIS profile (that represents the result of the thinning process required by *Kongsberg SIS*).
 
-Additional functions to export in several formats (CSV, kml, shapefile) and to plot the metadata and the spatial
+Additional functions to export in several formats (csv, kml, shapefile) and to plot the metadata and the spatial
 information for the stored SSP data set.
+
+.. index:: csv
+.. index:: kml
+.. index:: shapefile
 
 .. _kml_export_fig:
 
@@ -190,6 +210,9 @@ information for the stored SSP data set.
 Data transmission
 =================
 
+.. index:: data; transmission
+.. index:: SIS
+
 Data transmission is triggered by selecting *Send SSP* from the *Process menu*.
 The recipients of such a transmission are configured in the configuration file (see :ref:`package_configuration`).
 Given that the profile accepted by *SIS* often requires the application of a thinning algorithm,
@@ -197,6 +220,8 @@ a method *Preview thinning* is provided to inspect the result of such an algorit
 
 Data export
 ===========
+
+.. index:: data; export
 
 Any file that is loaded into the package can be exported by accessing the *Export SSP* options under the *File menu*.
 Several formats are currently supported, so the user must select the format of interest and
@@ -212,6 +237,9 @@ Additional functionalities
 Create a WOA or RTOFS profile
 -----------------------------
 
+.. index:: WOA, synthetic profile
+.. index:: RTOFS, synthetic profile
+
 It is possible to upload a single WOA or RTOFS profile to *SIS*.
 This can be done by first select WOA09 atlas or RTOFS atlas under the *File/Query* from sub-menu.
 This will trigger a series of question dialogs that will determine use of the SIS date/position input
@@ -224,6 +252,8 @@ in the filename based on the query time of the cast.
 
 Request profile from SIS
 ------------------------
+
+.. index:: SIS, profile
 
 This functionality is used to retrieve the cast currently being used by *SIS* and use it to create a new profile,
 by selecting *Kongsberg SIS* under the *File/Query* from sub-menu.
@@ -307,6 +337,7 @@ A few other notes on the *Refraction Monitor*:
 * If running in *Server mode*, the slider bar corrector value is applied during transmission without user confirmation.
 * The slider bar corrector value is reset to zero after transmission of the profile both for measured profiles and server profiles.
 
+.. index:: refraction; monitor
 
 Network data reception
 ----------------------

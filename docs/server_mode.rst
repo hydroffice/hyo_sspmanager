@@ -4,6 +4,9 @@
 Server Mode
 ***********
 
+.. index::
+   single: mode; server
+
 The *Server mode* is meant for transits during which perhaps one XBT per day might be thrown.
 For much of the world oceans, using the WOA is a reasonable substitute for *in situ* measurements
 (*Beaudoin et al., 2011*).
@@ -26,6 +29,8 @@ WOA data to SIS and will notify the user.
 
 Serving to multiple clients
 ===========================
+
+.. index:: mode; clients
 
 For installations with multiple clients, the server will deliver the cast sequentially to all clients.
 Failure on transmission to one client will not interfere with other clients.

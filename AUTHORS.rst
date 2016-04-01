@@ -2,7 +2,7 @@ Credits
 =======
 
 Authors
-------------
+-------
 
 "HydrOffice ssp" is written and maintained by:
 
@@ -18,6 +18,6 @@ Contributors
 
 The following wonderful people contributed directly or indirectly to this project:
 
-- `John Doe <mailto:john@doe.edu>`_
+- `Glen Rice <mailto:glen.rice@noaa.gov>`_
 
 Please add yourself here alphabetically when you submit your first pull request.

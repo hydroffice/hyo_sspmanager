@@ -8,6 +8,8 @@ Appendix A - Oceanographic Atlases
 World Ocean Atlas
 =================
 
+.. index:: WOA; description
+
 The World Ocean Atlas is a 3-dimensional grid of mean temperature and salinity for the world’s oceans
 that is based upon a large set of archived oceanographic measurements in the World Ocean Database.
 
@@ -18,6 +20,7 @@ The WOA09 netCDF temperature and salinity grids used by the package can be acces
 from `http://www.nodc.noaa.gov/OC5/WOA09/netcdf_data.html <http://www.nodc.noaa.gov/OC5/WOA09/netcdf_data.html>`_
 
 The files required are:
+
 * *temperature_annual_1deg.nc*
 * *temperature_seasonal_1deg.nc*
 * *temperature_monthly_1deg.nc*
@@ -31,6 +34,8 @@ from: `http://www.nodc.noaa.gov/OC5/WOA09/masks09.html <http://www.nodc.noaa.gov
 
 Global Real-Time Ocean Forecast System
 ======================================
+
+.. index:: RTOFS; description
 
 The Global Real-Time Ocean Forecast System (RTOFS Global) is a 1/12°, 3-D oceanographic forecast model.
 More information can be found online at: `http://polar.ncep.noaa.gov/global/ <http://polar.ncep.noaa.gov/global/>`_
@@ -50,6 +55,8 @@ using the estimates immediately local to the area of the cast in either WOA09 or
 
 WOA09-based profiles
 ====================
+
+.. index:: WOA; WOA09
 
 The World Ocean Atlas 2009 (WOA09) extension algorithm uses a nearest neighbor lookup in each of the 33 depth levels
 in the grids within a 3x3 grid node search box centered on the cast’s geographic position.
@@ -72,6 +79,8 @@ likely with the use of the basin mask file provided with the WOA09 data set.
 WOA13-based profiles (To Be Implemented)
 ========================================
 
+.. index:: WOA; WOA13
+
 WOA13 represents the ocean state variables of temperature and salinity with more detail and less uncertainty than
 WOA09 due to large increases in data holdings and better temporal and spatial coverage coupled with refined analysis
 and quality control techniques:
@@ -86,6 +95,8 @@ to a lesser extent, quality control concerns which have surfaced since the initi
 
 RTOFS-based profiles
 ====================
+
+.. index:: RTOFS; synthetic profile
 
 The RTOFS extension algorithm differs in the size of the search area (5x5), roughly equivalent to a search radius
 of 0.2° or 12.5 nmi at the equator. All of the shortcomings of the WOA09 lookup described above also apply

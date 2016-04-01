@@ -5,30 +5,26 @@
 HydrOffice SSP Manager's documentation
 **************************************
 
-Contents
-========
 
-.. toctree::
-   :maxdepth: 2
+..  toctree::
+    :maxdepth: 2
 
-   in_brief
-   requirements
-   license
-   how_to_install
-   how_to_use
-   how_to_contribute
-   api
-   how_to_release
-   how_to_freeze
-   dev_commands
-   banner
-   app_a_oceanographic_atlases
-   app_b_connection_settings
-
-Indices and tables
-==================
+    in_brief
+    requirements
+    license
+    how_to_install
+    how_to_use
+    how_to_contribute
+    how_to_release
+    how_to_freeze
+    dev_commands
+    banner
+    app_a_oceanographic_atlases
+    app_b_connection_settings
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+
+..  only:: html
+
+    * :ref:`search`
 

@@ -1,5 +1,4 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
-
 import os
 import math
 import socket
@@ -7,13 +6,11 @@ import datetime as dt
 import threading
 import time
 import copy
-
 import numpy as np
 import matplotlib.patches
 import wx
 from wx import PyDeadObjectError
 from . import wxmpl  # local version of this module, since Pydro's one has an issue
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -21,7 +18,6 @@ log = logging.getLogger(__name__)
 from hydroffice.base.helper import HyOError
 from hydroffice.base.timerthread import TimerThread
 from hydroffice.base.gdal_aux import GdalAux
-
 from .plots import WxPlots, PlotsSettings
 from . import sspmanager_ui
 from . import refmonitor
@@ -226,9 +222,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
         event.Skip()
 
     def on_popup(self, event):
-        """
-        Print the label of the menu item selected
-        """
+        """Print the label of the menu item selected"""
         item_id = event.GetId()
         menu = event.GetEventObject()
         menu_item = menu.FindItemById(item_id)
@@ -1113,7 +1107,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
             self.p.sal_axes.add_patch(sel)
 
         # plot vessel draft and surface sound speed (if available) [only on the speed plot]
-        #print("@ %s %s" % (self.prj.vessel_draft, self.prj.surface_sound_speed))
+        # print("@ %s %s" % (self.prj.vessel_draft, self.prj.surface_sound_speed))
         if self.prj.vessel_draft and self.prj.surface_sound_speed:
             line = 'g--'
             # vertical line
@@ -1193,7 +1187,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
                 if not self.prj.rtofs_atlas_loaded:
                     if self.prj.woa09_atlas_loaded:  # try with WOA09
                         log.info("RTOFS grids not loaded, reverting to WOA09")
-                        #ext_type = Dicts.source_types['Woa09Extend']
+                        # ext_type = Dicts.source_types['Woa09Extend']
                         salinity_source = "WOA09"
                         self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'salinity')
                     else:
@@ -1212,7 +1206,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
                     except SspError:
                         if self.prj.woa09_atlas_loaded:  # try with WOA09
                             log.info("failure in RTOFS lookup, reverting to WOA09")
-                            #ext_type = Dicts.source_types['Woa09Extend']
+                            # ext_type = Dicts.source_types['Woa09Extend']
                             salinity_source = "WOA09"
                             self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'salinity')
 
@@ -1260,7 +1254,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
     def on_process_load_temp_and_sal(self, evt):
         """XSV- and SVP- specific function"""
 
-        if (self.prj.ssp_data.sensor_type != Dicts.sensor_types["XSV"])\
+        if (self.prj.ssp_data.sensor_type != Dicts.sensor_types["XSV"]) \
                 and (self.prj.ssp_data.sensor_type != Dicts.sensor_types["SVP"]):
             msg = 'XSV- and SVP-specific function!'
             dlg = wx.MessageDialog(None, msg, "Error", wx.OK | wx.ICON_ERROR)
@@ -1281,7 +1275,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
                 if not self.prj.rtofs_atlas_loaded:
                     if self.prj.woa09_atlas_loaded:  # try with WOA09
                         log.info("RTOFS grids not loaded, reverting to WOA09")
-                        #ext_type = Dicts.source_types['Woa09Extend']
+                        # ext_type = Dicts.source_types['Woa09Extend']
                         temperature_salinity_source = "WOA09"
                         self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'salinity')
                         self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'temperature')
@@ -1302,7 +1296,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
                     except SspError:
                         if self.prj.woa09_atlas_loaded:  # try with WOA09
                             log.info("failure in RTOFS lookup, reverting to WOA09")
-                            #ext_type = Dicts.source_types['Woa09Extend']
+                            # ext_type = Dicts.source_types['Woa09Extend']
                             temperature_salinity_source = "WOA09"
                             self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'salinity')
                             self.prj.ssp_data.replace_samples(self.prj.ssp_woa, 'temperature')
@@ -1798,7 +1792,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
             return
 
         pk_list = ssp_db.list_all_ssp_pks()
-        #print(pk_list)
+        # print(pk_list)
         if len(pk_list) == 0:
             msg = 'The DB is empty. Nothing to delete!'
             dlg = wx.MessageDialog(None, msg, "Local DB", wx.OK | wx.ICON_WARNING)
@@ -1813,7 +1807,7 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
 
         dlg_list = [("%04d: %s @ %s [%s]" % (tp[0], tp[1], tp[2], Dicts.first_match(Dicts.sensor_types, int(tp[4]))))
                     for tp in pk_list]
-        #print(dlg_list)
+        # print(dlg_list)
         dialog = wx.SingleChoiceDialog(None, "Pick a stored SSP", "Local DB", dlg_list)
         selection = dialog.ShowModal()
         dialog.Destroy()
@@ -2122,25 +2116,47 @@ class SSPManager(sspmanager_ui.SSPManagerBase):
 
     def on_help_about(self, e):
         """Info about the application"""
+        import platform
+        from hydroffice import base
+        from hydroffice import ssp
         current_year = dt.datetime.now().strftime("%Y")
         dlg = wx.AboutDialogInfo()
         dlg.SetName("SSP Manager")
         dlg.SetVersion(self.version)
         dlg.SetLicense(self.license)
         dlg.SetIcon(wx.Icon(os.path.join(self.here, "media", "ccom.png"), wx.BITMAP_TYPE_PNG))
-        dlg.SetDescription("SSP Manager processes XBT/SVP/CTD data for being used by \n"
-                           "acoustic systems.\n\n"
-                           "This work is/has been funded by:\n"
-                           " - NOAA grant NA10NOS4000073\n"
-                           " - NSF grant 1150574\n\n"
-                           "For bugs and unsupported formats, please send an email \n"
-                           "(with attached the data files to reproduce and troubleshoot \n"
-                           "the issue!) to:\n"
-                           " - hydroffice.ssp_manager@ccom.unh.edu\n\n"
-                           "For code contributions and general comments, write to:\n"
-                           " - gmasetti@ccom.unh.edu\n"
-                           " - brc@ccom.unh.edu\n"
-                           " - matthew.wilson@noaa.gov")
+        about_description = "SSP Manager processes XBT/SVP/CTD data for being used by \n" \
+                            "acoustic systems.\n\n" \
+                            "This work is/has been funded by:\n" \
+                            " - NOAA grant NA10NOS4000073\n" \
+                            " - NSF grant 1150574\n\n" \
+                            "For bugs and unsupported formats, please send an email \n" \
+                            "(with attached the data files to reproduce and troubleshoot \n" \
+                            "the issue!) to:\n" \
+                            " - hydroffice.ssp_manager@ccom.unh.edu\n\n" \
+                            "For code contributions and general comments, write to:\n" \
+                            " - gmasetti@ccom.unh.edu\n" \
+                            " - brc@ccom.unh.edu\n" \
+                            " - matthew.wilson@noaa.gov\n" \
+                            "Contributors:\n" \
+                            " - glen.rice@noaa.gov\n\n" \
+                            "Environment:\n" \
+                            " - os: %s [%sbit]\n" \
+                            " - python: %s [%sbit]\n" \
+                            " - wxPython: %s\n" \
+                            " - matplotlib: %s\n" \
+                            " - hydroffice.base: %s\n" \
+                            " - hydroffice.ssp: %s" % \
+                            (
+                                os.name, "64" if Helper.is_64bit_os() else "32",
+                                platform.python_version(), "64" if Helper.is_64bit_python() else "32",
+                                wx.__version__,
+                                matplotlib.__version__,
+                                base.__version__,
+                                ssp.__version__
+                            )
+
+        dlg.SetDescription(about_description)
         dlg.SetCopyright("%s (C) UNH/CCOM" % current_year)
         wx.AboutBox(dlg)
 
